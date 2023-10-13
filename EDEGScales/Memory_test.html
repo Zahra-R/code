@@ -1,0 +1,114 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block styles %}
+    <link href="{{ static 'global/EDEGgeneral.css'}}" rel="stylesheet">
+    <link href="{{ static 'global/css/EDEGcustom.css'}}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+<body>
+   
+    
+  
+
+    <div class="No-label">
+
+
+        
+       <h4> <b> Can you recall the emissions for the options in both parts of the game? </b></h4>
+            <p class="">
+                <!-- Please choose one of the options. /your preferred option  edit text  -->
+             
+            </p>
+
+            <p> You can win an additional bonus of 20 points, if you answer all four questions correctly. </p>
+
+
+    <h4 style="padding-top: 20pt"> In part one of the game, how many carbon emissions were caused by each option? </h4>
+    <div class="mb-3 _formfield">
+    
+        <div class="controls">
+        
+            <table style="padding-left:0;">
+                <tr> 
+                    <td style="padding-left:0pt;"> <label class="col-form-label" for="id_Block1CarbonLeft">Option A caused</label>
+                    </td>
+                    <td style="padding-left:0;">  <input type="number"  class="form-control" inputmode="numeric" id="id_Block1CarbonLeft" max="1000" min="0" step="1" pattern="[0-9]{10}" name="Block1CarbonLeft" required="" value=""> 
+                    </td> 
+                    <td> lbs CO2.</td>
+                </tr>
+    
+                <tr> 
+                    <td style="padding-left:0pt;"> <label class="col-form-label" for="id_Block1CarbonRight">Option B caused</label>
+                    </td>
+                    <td style="padding-left:0;">  <input type="number"  class="form-control" inputmode="numeric" id="id_Block1CarbonRight" max="1000" min="0" step="1" pattern="[0-9]{10}" name="Block1CarbonRight" required="" value=""> 
+                    </td> 
+                    <td> lbs CO2.</td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+
+    
+    {{ formfield_errors "Block1CarbonLeft" }}
+    {{ formfield_errors "Block1CarbonRight" }}
+    
+ 
+
+
+    <h4 style="padding-top: 20pt"> In part two of the game, how many carbon emissions were caused by each option? </h4>
+    <div class="mb-3 _formfield">
+    
+        <div class="controls">
+        
+            <table style="padding-left:0;">
+                <tr> 
+                    <td style="padding-left:0pt;"> <label class="col-form-label" for="id_Block2CarbonLeft">Option A caused</label>
+                    </td>
+                    <td style="padding-left:0;">  <input type="number"  class="form-control" inputmode="numeric" id="id_Block2CarbonLeft" max="1000" min="0" step="1" pattern="[0-9]{10}" name="Block2CarbonLeft" required="" value=""> 
+                    </td> 
+                    <td> lbs CO2.</td>
+                </tr>
+    
+                <tr> 
+                    <td style="padding-left:0pt;"> <label class="col-form-label" for="id_Block2CarbonRight">Option B caused</label>
+                    </td>
+                    <td style="padding-left:0;">  <input type="number"  class="form-control" inputmode="numeric" id="id_Block2CarbonRight" max="1000" min="0" step="1" pattern="[0-9]{10}" name="Block2CarbonRight" required="" value=""> 
+                    </td> 
+                    <td> lbs CO2.</td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+
+    
+    
+    {{ formfield_errors "Block2CarbonRight" }}
+    {{ formfield_errors "Block2CarbonRight" }}
+    
+ 
+
+
+        
+    </div>
+
+      
+    <div class="feedback">  
+        <div style="text-align:right; padding-top: 5vh;">
+            <button class="btn btn-primary"id="next-button">Next</button> 
+        </div>
+    </div> 
+
+
+</body>
+
+{% endblock %}
+
+{% block scripts %}
+
+
+{% endblock %}

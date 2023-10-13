@@ -1,0 +1,46 @@
+
+{% block styles %}
+    <link href="{{ static 'global/EDEGgeneral.css'}}" rel="stylesheet">
+    <link href="{{ static 'global/css/EDEGcustom.css'}}" rel="stylesheet">
+{% endblock %}
+
+{% block title %}
+    Please provide some information about yourself
+{% endblock %}
+
+{% block content %}
+
+
+<div style="padding-top:10vh; padding-left:1vw;">
+    <p>In terms of <i><b>economic</b></i> issues, how would you describe your political attitudes and beliefs? </p>
+    <p style="text-indent: 7vw;">
+        very liberal &nbsp;
+        {{ for choice in form.conservative_econ }}
+            {{ choice }}
+        {{ endfor }}
+        &nbsp; very conservative
+    </p>
+    </div>
+    
+    <div  style="padding-left:1vw;">
+        <p>In terms of <i><b>social</b></i> issues, how would you describe your political attitudes and beliefs? </p>
+        <p style="text-indent: 7vw;">
+            very liberal &nbsp;
+            {{ for choice in form.conservative_social }}
+                {{ choice }}
+            {{ endfor }}
+            &nbsp; very conservative
+        </p>
+        </div>
+    
+    
+
+
+
+<div class="next-btn">  
+    <div style="float: right; padding-top: 5vh;">
+         {% next_button %} 
+    </div>
+</div> 
+{% endblock %}
+

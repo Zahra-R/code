@@ -1,0 +1,63 @@
+
+{% block styles %}
+    <link href="{{ static 'global/EDEGgeneral.css'}}" rel="stylesheet">
+    <link href="{{ static 'global/css/EDEGcustom.css'}}" rel="stylesheet">
+{% endblock %}
+
+{% block title %}
+    Your feedback on the study
+{% endblock %}
+
+{% block content %}
+
+
+
+
+<div class="Exp_Con" style="padding-top:2vh; padding-left:1vw;">
+    <p> How much do you trust the carbon offsetting procedure in this study? That is, how much do you trust that we will realize the emissions in the real world?</p>
+    <p style="text-indent: 7vw;">
+        not at all &nbsp;
+        {{ for choice in form.trustCC }}
+            {{ choice }}
+        {{ endfor }}
+        &nbsp; fully
+    </p>
+</div>
+
+
+
+{% formfield player.faithful %}
+
+{% formfield player.use_data %}
+
+
+<div class="mb-3 _formfield">
+    
+    <label class="col-form-label" for="id_generalFeedback">{{ form.generalFeedback.label }}</label>
+    <div class="controls">
+        <textarea style="width:80%" class="form-control" rows="4" id="id_generalFeedback" name="generalFeedback"></textarea>
+    </div>
+    {% formfield_errors 'generalFeedback' %}
+</div>
+
+
+
+
+    
+
+
+<div class="next-btn">  
+    <div style="float: right; padding-top: 5vh;">
+         {% next_button %} 
+    </div>
+</div> 
+{% endblock %}
+
+{{ formfield_errors 'trustCC' }}
+
+{% block scripts %}
+
+
+{% endblock %}
+
+

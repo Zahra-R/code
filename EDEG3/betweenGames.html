@@ -1,0 +1,31 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block styles %}
+    <link href="{{ static 'global/EDEGgeneral.css'}}" rel="stylesheet">
+    <link href="{{ static 'global/css/EDEGcustom.css'}}" rel="stylesheet">
+{% endblock %}
+
+{% block title %}
+ Attention: Part 2 of the game starts now. 
+{% endblock %}
+
+{% block content %}
+
+
+
+<p> You have finished the first {{C.ROUNDS_PER_BLOCK | to0 }} rounds. </p>
+
+
+<p> <b> Now, the outcomes of the options will change. </b> Please pay attention to the new payoffs and emissions of your choice options.  </p>
+
+
+<p>
+<strong> Please click next to continue with the next round.  </strong>
+</p>
+
+
+<button style="float: right; margin-top: 2vh;" class="otree-btn-next btn btn-primary" id="consent-next">Next</button>
+{% endblock %}
+
+

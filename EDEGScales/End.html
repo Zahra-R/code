@@ -1,0 +1,87 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+
+{% block styles %}
+    <link href="{{ static 'global/EDEGgeneral.css'}}" rel="stylesheet">
+    <link href="{{ static 'global/css/EDEGcustom.css'}}" rel="stylesheet">
+{% endblock %}
+
+{% block title %}
+    END
+{% endblock %}
+
+{% block content %}
+
+
+<h2>Thank you for participating</h2><br>
+<div class="loading"> For one round, we will realize the outcomes of your choice. This round is being randomly drawn. </div>
+
+<div class="reveal_round" style="display:none">
+    <p> The chosen round is: <b>Round {{chosen_round}}. </b> </p>
+
+    <p> In round {{chosen_round}}, you chose Option {{chosen_round_choice_present}}. With this choice, you {% if chosen_round_outcome < 0 %} <strong> lost 
+        {% else %}  <strong>  gained
+        {%endif%} {{chosen_round_outcome | to0}} points. </strong> <br>
+
+        <span class="Exp_Con"> The <strong>CO2 emissions of your choice were 
+                {{ chosen_round_carbon }} lbs.</strong>
+            </span> 
+    </p>
+
+    {{if memoryPassed == True}}
+        <p> You correctly remembered the carbon emissions for both options in both parts of the game, so you are awarded {{memoryBonus}} extra points.</p>
+    {{else}}
+        <p> You did not correctly remember all of the emissions outcomes, so you will not be awarded any additional points. </p>
+    {{endif}}
+
+
+
+<p> Your bonus payment will thus be <strong>{{random_bonus}}</strong>. </p>
+
+
+The payment will be transferred to you by Prolific soon. <span class="Exp_Con"> The emissions will be realized by returning the corresponding number of CO2 emission certificates. </span>
+<br>
+
+<strong> PLEASE CLICK BELOW TO FINISH AND SUBMIT YOUR RESULTS </strong>
+
+
+<br>
+
+    <button class="btn btn-primary btn-large reps" style="margin-top:3vh;" type="button" onclick="window.location.href='https://app.prolific.co/submissions/complete?cc=C674J2IG'"> Click here to Finish</button>
+
+
+
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+    Exp_Con = "{{Exp_Con}}"
+
+    activate_Exp_Con = function(){
+                if(Exp_Con > 1) {
+                    $('.Exp_Con').css("display", "revert")
+                }
+            }
+
+    activate_Payoff = function(){
+        $('.reveal_round').css("display", "block")
+        $('.loading').css("display", "none")
+    }
+            window.onload = function () {
+                
+
+
+                setTimeout(function() {
+                    activate_Payoff();
+                    activate_Exp_Con();
+                }, 4 * 1000);
+            }
+</script>
+
+
+{% endblock %}
+
+

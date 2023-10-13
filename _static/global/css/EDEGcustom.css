@@ -1,0 +1,119 @@
+.att-box{
+    border-color: red;
+    border-style: dashed;
+    padding: 20px 10px;
+    background-color: lightpink;
+    font-weight: bold;
+    font-size: larger;
+    border-width: thick;
+}
+
+
+input.larger {
+  width: 3vw;
+  height: 3vw;
+
+  max-width: 25px;
+  max-height: 25px;
+
+  min-width: 15px;
+  min-height: 15px;
+}
+
+
+#range_party{
+    background: linear-gradient(to right, #0000ff  0%, lightgrey 50%, #c4173b  100%);
+    border-radius: 8px;
+    height: 32px;
+    -webkit-appearance: none;
+    appearance:  none;
+}
+
+input[type='range']::-webkit-slider-thumb {
+    width: 30px;
+    -webkit-appearance: none;
+    height: 30px;
+    cursor: pointer;
+    background: bisque; 
+    border-radius: 50%;
+  }
+
+
+
+  .loading:after {
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: bottom;
+    -webkit-animation: ellipsis steps(4,end) 900ms infinite;      
+    animation: ellipsis steps(4,end) 900ms infinite;
+    content: "\2026"; /* ascii code for the ellipsis character */
+    width: 0px;
+  }
+  
+  @keyframes ellipsis {
+    to {
+      width: 1.25em;    
+    }
+  }
+  
+  @-webkit-keyframes ellipsis {
+    to {
+      width: 1.25em;    
+    }
+  }
+
+
+  #realEmissions{
+    border: none;
+    overflow: hidden;
+  }
+  #realEmissions::-moz-focus-inner {
+    border: 0;
+  }
+  #realEmissions:focus {
+    outline: none;
+  }
+  #realEmissions option{
+    width: 60px;
+    font-size: 1.2em;
+    padding: 10px 0;
+    text-align: center;
+    margin-right: 20px;
+    display: inline-block;
+    cursor: pointer;
+    border: #248076 solid 1px;
+    border-radius: 5px;
+  }
+
+  #realEmissions option:hover{
+    background-image: linear-gradient(to bottom, #a4e0d9, #248076);
+    background: linear-gradient(to bottom, #a4e0d9, #248076);
+  }
+
+  #realEmissions option:not(:checked){
+    color: black;
+  }
+
+  #realEmissions option:checked{
+    background-color: 4f8e87 !important;
+    background: linear-gradient(#a4e0d9, #a4e0d9);
+    border-color: #79bab3;
+  }
+
+  #realEmissions option:active{
+    color: #D6DEF5;
+    }
+    
+
+  #realEmissions option:focus{
+    background-color: green !important;
+    background: linear-gradient(green, yellow);
+    color: white;
+  }
+
+
+  .point_span{
+    font-size: 16pt;
+    font-weight: 600;
+}
+

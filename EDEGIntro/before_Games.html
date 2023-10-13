@@ -1,0 +1,26 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block styles %}
+    <link href="{{ static 'global/EDEGgeneral.css'}}" rel="stylesheet">
+    <link href="{{ static 'global/css/EDEGcustom.css'}}" rel="stylesheet">
+{% endblock %}
+
+{% block title %}
+    The decision making game starts now. 
+{% endblock %}
+
+{% block content %}
+
+<strong> Please click next to start the decision making game.  </strong>
+
+
+<div style="max-width:755px;" class="next-btn">  
+    <div style="float: right; padding-top: 1vh;">
+        <button class="btn btn-primary otree-btn-next"id="next-button">Next</button> 
+    </div>
+</div> 
+
+{% endblock %}
+
+

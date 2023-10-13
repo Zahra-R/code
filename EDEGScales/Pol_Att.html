@@ -1,0 +1,62 @@
+
+{% block styles %}
+    <link href="{{ static 'global/EDEGgeneral.css'}}" rel="stylesheet">
+    <link href="{{ static 'global/css/EDEGcustom.css'}}" rel="stylesheet">
+{% endblock %}
+
+{% block title %}
+    Political Attitudes
+{% endblock %}
+
+{% block content %}
+
+<p> How much do you agree with the following statements?</p>
+
+<table class="radiotable">
+    <tr> <th></th> <th    class="radio-column"> not at all</th> <th class="radio-column" > </th class="radio-column"> <th class="radio-column"> </th> <th></th> <th    class="radio-column"> very much </th> </tr>
+    {{ for field in form }}
+        {{if field.id == 'id_conservative_liberal' }}
+            
+        {{else}}
+            <tr>
+                <th style="font-weight:normal;">{{ field.label }}</th>
+                {{ for choice in field }}
+                    <td>{{ choice }}</td>
+                {{ endfor }}
+            </tr>
+        {{endif}}
+    {{ endfor }}
+</table>
+
+
+<div class="radiotable" style="padding-top:10vh; padding-left:1vw;">
+<p> Overall, how would you describe your political attitudes and beliefs? </p>
+<p style="text-indent: 7vw;">
+    very liberal &nbsp;
+    {{ for choice in form.conservative_liberal}}
+        {{ choice }}
+    {{ endfor }}
+    &nbsp; very conservative
+</p>
+</div>
+
+
+
+
+<div class="next-btn radiotable">  
+    <div style="float: right;">
+         {% next_button %} 
+    </div>
+</div> 
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+    myform = "{{form}}"
+</script>
+
+
+{% endblock %}
+
+

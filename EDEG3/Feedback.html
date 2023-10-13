@@ -1,0 +1,176 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block styles %}
+    <link href="{{ static 'global/EDEGgeneral.css'}}" rel="stylesheet">
+    <link href="{{ static 'global/css/EDEGcustom.css'}}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+<body>
+   
+    
+    <div class="" style="font-size:13pt; text-align: justify;">
+                <!-- <div style='font-size:12'> -->
+
+                <h4> Results from the Previous Round</h4>
+                    
+                {%if Salience == True %}  <!-- this is for exp. condition  -->
+                    In the previous round, you chose Option {{ previous_choice }}. You
+                    {% if previous_outcome < 0 %} <strong> lost 
+                    {% else %}  <strong>  gained
+                    {%endif%} <span class="prev_outcome"></span> points </strong> and caused 
+                    
+                    {% if previous_choice == "A" %}
+                        <strong> {{ carbonA }} lbs of CO2 emissions.</strong>
+                        Had you chosen Option B, you would have 
+                        {% if previous_outcomeB < 0 %} lost
+                        {% else %} gained 
+                        {%endif%} {{previous_outcomeB | to0}} points and caused {{carbonB}} lbs of CO2 emissions.            
+                    {% endif %}
+                        
+                    {% if previous_choice == "B" %}
+                        <strong> {{ carbonB }} lbs of CO2 emissions</strong>.
+                        Had you chosen Option A, you would have 
+                        {% if previous_outcomeA < 0 %} lost 
+                        {% else %} gained
+                        {%endif%}{{previous_outcomeA | to0}} points and caused {{carbonA}} lbs of CO2 emissions. <br>       
+                    {% endif %}
+                
+
+                {% else %} <!-- this is for non Salient condition  -->
+                    In the previous round, you chose Option {{ previous_choice }}. You
+                    {% if previous_outcome < 0 %} lost 
+                    {% else %} gained
+                    {%endif%} <strong> <span class="prev_outcome"></span> points. </strong>
+                    
+                    {% if previous_choice == "A" %}
+                        Had you chosen Option B, you would have 
+                        {% if previous_outcomeB < 0 %} lost
+                        {% else %} gained
+                        {%endif%} {{previous_outcomeB | to0}} points.    
+                           <!-- it used to be {{previous_outcomeA}}  but that did not work with the negative sign--></0>        
+                    {% endif %}
+                        
+                    {% if previous_choice == "B" %}
+                        Had you chosen Option A, you would have 
+                        {% if previous_outcomeA < 0 %} lost 
+                        {% else %} gained
+                        {%endif%} {{previous_outcomeA | to0}} points. <br>       
+                    {% endif %}
+                {% endif %}
+
+    </div>
+               
+        
+               
+                        <table style="margin-left: auto; margin-right: auto; margin-top:3vh;" id="outcometable">
+                            <tbody>
+                                <tr id="tabletitle" >
+                                    <td style="text-align: center;"></td>
+                                    <td style="text-align: center; padding-bottom: 0;"><strong>{% if previous_choice == "A" %} You chose: {% endif %} </strong>
+                                    </td>
+                                    <td style="text-align: center; padding-bottom: 0;"> <strong>{% if previous_choice == "B" %} You chose: {% endif %}</strong>
+                                    </td>
+                                </tr>
+                                <tr id="chosenarrow">
+                                    <td></td>
+                                    <td style="text-align: center; padding: 0"><strong>{% if previous_choice == "A" %} &darr; {% endif %} </strong>
+                                    </td>
+                                    <td style="text-align: center; padding: 0"> <strong>{% if previous_choice == "B" %} &darr; {% endif %} </strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td style="text-align: center; padding-top: 0"><strong> Option A </strong></td>
+                                    <td style="text-align: center; padding-top: 0; padding-right:0vw;"> <strong> Option B </strong></td>
+                                </tr>
+        
+                                <tr id="outcomesrow">
+                                    <td style="text-align: center;">The outcomes were:</td>
+                                    {% if previous_outcomeA < 0 %} <td style="font-size:16pt; background-color: none; text-align: center;">
+                                    {% if previous_choice == "A" %} <strong>{% endif %}&nbsp;{{ previous_outcomeA | to0}} points
+                                    {%else%} <td style="font-size:16pt; background-color:none; text-align: center;">
+                                    {% if previous_choice == "A" %} <strong>{% endif %}&nbsp;{{ previous_outcomeA | to0}} points
+                                    {% endif %} </td></strong>
+        
+                                    {% if previous_outcomeB < 0 %} <td style="font-size:16pt; background-color: none; text-align: center;">{% if
+                                    previous_choice == "B" %} <strong>{% endif %}&nbsp;{{ previous_outcomeB | to0 }} points
+                                    {%else%} <td style="font-size:16pt; background-color: none; text-align: center;">{% if previous_choice
+                                    == "B" %}<strong>{% endif %}&nbsp;{{ previous_outcomeB  | to0}} points
+                                    {% endif %}
+                                    </td></strong>
+                                    </td>
+                                </tr>
+
+                                <tr id="emissionoutcomesrow" class="non_salient">
+                                    <td style="text-align: center;">The emissions were:</td>
+                                    <td style="font-size:16pt; background-color: none; text-align: center;">
+                                    {% if previous_choice == "A" %}<strong>{% endif %}&nbsp; {{carbonA}} lbs CO2  &nbsp;
+                                    </td></strong>
+        
+                                    <td style="font-size:16pt; background-color: none; text-align: center;">
+                                    {% if previous_choice == "B" %}<strong>{% endif %}&nbsp;{{ carbonB }} lbs CO2 &nbsp;
+                                        </td></strong>
+                                    </td>
+                                </tr>
+
+                               
+                            </tbody>
+                        </table>
+                <!-- </div> -->
+
+           
+            <div class="feedback">  
+                <div style="text-align:center; padding-top: 5vh;">
+                    <button disabled class="btn btn-primary"id="next-button">Next</button> 
+                </div>
+            </div> 
+    
+
+
+</body>
+
+
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    Salience = "{{Salience}}"
+    num_choices = "{{ C.NUM_ROUNDS }}";
+    lottery_a_hi = "{{ C.high_lottery }}";
+    lottery_a_lo = "{{ C.low_lottery }}";
+    lottery_b_hi = "{{ C.safe_outcome }}";
+    lottery_b_lo = "{{ C.safe_outcome }}";
+    previous_outcome= "{{previous_outcome | to0}}";
+    previous_outcome_abs = Math.round(Math.abs(Number(previous_outcome)))
+
+   
+    enablebtn = function () {
+                document.getElementById("next-button").disabled = false;
+            }
+
+
+    activate_EmissionsRow= function(){
+                if(Salience == "True") {
+                    $('.non_salient').css("display", "revert")
+                }
+            }
+
+
+    
+    window.onload = function () {
+        activate_EmissionsRow();
+        $('.prev_outcome')[0].innerHTML=previous_outcome
+        setTimeout(function () { enablebtn() },  1000);
+                
+    }
+</script>
+
+
+{% endblock %}
+
+
+

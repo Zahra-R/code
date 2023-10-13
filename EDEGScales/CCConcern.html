@@ -1,0 +1,38 @@
+
+{% block styles %}
+    <link href="{{ static 'global/EDEGgeneral.css'}}" rel="stylesheet">
+    <link href="{{ static 'global/css/EDEGcustom.css'}}" rel="stylesheet">
+{% endblock %}
+
+{% block title %}
+    Attitudes about Climate Change
+{% endblock %}
+
+{% block content %}
+
+<p> How much do you agree with the following statements?</p>
+
+<table class="radiotable">
+    <tr> <th></th> <th    class="radio-column"> not at all</th> <th class="radio-column" > </th class="radio-column"> <th class="radio-column"> </th> <th></th> <th    class="radio-column"> very much </th> </tr>
+
+
+   
+    {{ for field in form }}
+        <tr>
+            <th style="font-weight:normal;">{{ field.label }}</th>
+            {{ for choice in field }}
+                <td>{{ choice }}</td>
+            {{ endfor }}
+        </tr>
+    {{ endfor }}
+</table>
+
+
+<div class="next-btn radiotable">  
+    <div style="float: right; padding-top: 2vh;">
+         {% next_button %} 
+    </div>
+</div> 
+{% endblock %}
+
+

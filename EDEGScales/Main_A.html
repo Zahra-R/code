@@ -1,0 +1,104 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block styles %}
+    <link href="{{ static 'global/EDEGgeneral.css'}}" rel="stylesheet">
+    <link href="{{ static 'global/css/EDEGcustom.css'}}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+<body>
+   
+    
+  
+
+    <div class="No-label">
+
+
+        
+       <h4> One-Round Game</h4>
+            <p class="">
+                <!-- Please choose one of the options. /your preferred option  edit text  -->
+               
+                  
+                    Please choose one of the options. 
+            </p>
+
+
+
+
+            <table style="width:100%" class="table" id="choicetable">
+                <tbody>
+                    <tr> <th> Option</th> <th> Payoff </th> 
+
+
+                    <tr> <th> Option A </th> <td>Get 1.5 points for sure </td>   
+                        <td> <button name="choiceAttention" id="abtn" value="false"
+                        class="btn btn-primary btn-large" disabled>&nbsp;&nbsp;&nbsp;&nbsp;Choose Option A&nbsp;&nbsp;&nbsp;&nbsp;</button> </td> 
+                    </tr>
+
+                    <tr> <th> Option B </th> <td>Get 1 point for sure </td>   
+                        <td> <button name="choiceAttention" id="bbtn" value="false"
+                        class="btn btn-primary btn-large" disabled>&nbsp;&nbsp;&nbsp;&nbsp;Choose Option B&nbsp;&nbsp;&nbsp;&nbsp;</button> </td> 
+                    </tr>
+
+                    <tr> <th> Option C </th> <td>Get -7 points for sure </td>   
+                        <td> <button name="choiceAttention" id="cbtn" value="false"
+                        class="btn btn-primary btn-large" disabled>&nbsp;&nbsp;&nbsp;&nbsp;Choose Option C&nbsp;&nbsp;&nbsp;&nbsp;</button> </td> 
+                    </tr>
+
+                    <tr> <th> Option D </th> <td>Get 3 points for sure </td>   
+                        <td> <button name="choiceAttention" id="dbtn" value="correct"
+                        class="btn btn-primary btn-large" disabled>&nbsp;&nbsp;&nbsp;&nbsp;Choose Option D&nbsp;&nbsp;&nbsp;&nbsp;</button> </td> 
+                    </tr>
+
+                    <tr> <th> Option E </th> <td>Get -2 points for sure </td>   
+                        <td> <button name="choiceAttention" id="ebtn" value="false"
+                        class="btn btn-primary btn-large" disabled>&nbsp;&nbsp;&nbsp;&nbsp;Choose Option E&nbsp;&nbsp;&nbsp;&nbsp;</button> </td> 
+                    </tr>
+                </tbody>
+            </table>
+        
+    </div>
+
+      
+
+            {{ formfield_errors "choiceAttention" }}
+
+    
+
+
+</body>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    Exp_Con = "{{Exp_Con}}"
+    num_choices = "{{ C.NUM_ROUNDS }}";
+
+    enablebtn = function () {
+                $(".btn-large").prop("disabled", false)
+                //document.getElementById("outcometable").style.display = "inline"
+                //document.getElementById("outcometable").setAttribute("style", "margin-left: auto; margin-right: auto;  ");
+                // document.getElementById("outcomesrow").setAttribute("style", "color: white;");
+                // document.getElementById("tabletitle").setAttribute("style", "color: white;");
+                // document.getElementById("chosenarrow").setAttribute("style", "color: white;");
+
+            }
+
+            activate_Exp_Con = function(){
+                if(Exp_Con == 2) {
+                    $('.Exp_Con').css("display", "revert")
+                }
+            }
+            window.onload = function () {
+                activate_Exp_Con();
+                setTimeout(function () { enablebtn() }, 1000);
+                // edit the timeout to 1200 or more!!!!
+            }
+</script>
+
+
+{% endblock %}

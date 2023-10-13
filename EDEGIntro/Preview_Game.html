@@ -1,0 +1,185 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block styles %}
+    <link href="{{ static 'global/EDEGgeneral.css'}}" rel="stylesheet">
+    <link href="{{ static 'global/css/EDEGcustom.css'}}" rel="stylesheet">
+
+    
+{% endblock %}
+
+{% block title %}
+    Preview of the Game
+{% endblock %}
+
+{% block content %}
+
+<body>
+    <div>
+        <p> Below is a preview of the game.</p>
+        
+        
+            <p> If you choose Option A, <span id="description-A"> you will <b> gain {{ C.safe_outcome }} points.</b> This option emits <b>{{carbonA}} lbs of CO2.</b>  </span> </p> 
+            
+            <p> If you choose Option B,  <span id="description-B">you will have a 90% chance to <b>gain {{ C.high_lottery }} points</b> and a 10% chance to <b>lose {{ C.low_lottery }} points.</b>  This option emits <b>{{carbonB}} lbs of CO2.</b></span>  </p> 
+                
+            <p>  While this is just a rough estimate, you can think about {{C.carbon}} lbs CO2 ({{C.carbon}} lbs ≈ <span id ="carbonMetric"></span> metric kilos) as being <b>equivalent to travelling {{carbonMiles | to0}} miles in an average passenger car.</b>  </p>
+            
+            <p class="non_salient"> After the preview, there will be <b> no more reminders about the emissions.</b> The emissions will remain the same for the next {{C.ROUNDS_PER_BLOCK | to0}} rounds. </p>
+    </div>
+   
+    <div class="No-label" style="color: grey; background-color: antiquewhite;  padding:min(4vw, 20pt);     box-shadow: 1pt 1pt 2pt 2pt rosybrown; margin-bottom: 10pt;">       
+      <h3> Please make a choice</h3>
+      <table style=" width:100%" class="table" id="choicetable">
+        <tbody>
+            <tr style="font-weight: bold;"> <th> </th> <td> Option A  <span class="badge bg-secondary" id="badgeLeft">  </span></td> <td> Option B   <span id="badgeRight" class="badge bg-primary">  </span></td></tr>
+            
+            <tr>
+                <th> Payoff</th> <td id = "left-payoff"> Get <span class="point_span">{{ C.safe_outcome }}</span> points for sure</td> <td id = "right-payoff">   <span > Get <span class="point_span">{{ C.high_lottery }}</span> points with <span class="point_span">90%</span> probability </span> <br>  <span> Get <span class="point_span">{{ C.low_lottery }}</span> points with <span class="point_span">10%</span> probability </span> </td>
+            </tr>
+            <tr  style="border-color: white;">
+                <th  > Emissions</th> <td id = "left-emissions"> Emit <span class="point_span">{{carbonA}}</span> lbs CO2 </td> <td id = "right-emissions"> Emit <span class="point_span">{{carbonB}}</span> lbs CO2</td> 
+            </tr>
+                
+
+            <tr style="border-color: white;">
+                <th> </th>
+                <td style="text-align: left;"><button name="choice" id="abtn" value="A"
+                    class="btn btn-primary btn-large" disabled> &nbsp;&nbsp;&nbsp;&nbsp;Choose Option A&nbsp;&nbsp;&nbsp;&nbsp;</button></td>
+                <td style="text-align: left;"><button name="choice" id="bbtn" value="B"
+                    class="btn btn-primary btn-large" disabled>&nbsp;&nbsp;&nbsp;&nbsp;Choose Option B&nbsp;&nbsp;&nbsp;&nbsp;</button></td>
+            </tr>
+        </tbody>
+    </table>
+        
+        
+        
+    </div>
+
+
+    <h4 style="padding-top: 20pt"> How many carbon emissions are caused by each option? </h4>
+    <div class="mb-3 _formfield">
+    
+        <div class="controls">
+        
+            <table style="padding-left:0;">
+                <tr> 
+                    <td style="padding-left:0pt;"> <label class="col-form-label" for="id_amountEmissionsLeft">Option A causes</label>
+                    </td>
+                    <td style="padding-left:0;">  <input type="number"  class="form-control" inputmode="numeric" id="id_amountEmissionsLeft" max="1000" min="0" step="1" pattern="[0-9]{10}" name="amountEmissionsLeft" required="" value=""> 
+                    </td> 
+                    <td> lbs CO2.</td>
+                </tr>
+    
+                <tr> 
+                    <td style="padding-left:0pt;"> <label class="col-form-label" for="id_amountEmissionsRight">Option B causes</label>
+                    </td>
+                    <td style="padding-left:0;">  <input type="number"  class="form-control" inputmode="numeric" id="id_amountEmissionsRight" max="1000" min="0" step="1" pattern="[0-9]{10}" name="amountEmissionsRight" required="" value=""> 
+                    </td> 
+                    <td> lbs CO2.</td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+
+    
+    {{ formfield_errors "amountEmissionsRight" }}
+    {{ formfield_errors "amountEmissionsLeft" }}
+    
+ 
+
+      
+
+    <div class="next-btn">
+        <div style="float: right; padding-top: 5vh;">
+            {% next_button %}
+        </div>
+    </div>
+
+
+</body>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    Salience = "{{Salience}}"
+    reverseSides = "{{reversedSides}}"
+    num_choices = "{{ C.NUM_ROUNDS }}";
+    lottery_a_hi = "{{ C.high_lottery }}";
+    lottery_a_lo = "{{ C.low_lottery }}";
+    lottery_b_hi = "{{ C.safe_outcome }}";
+    lottery_b_lo = "{{ C.safe_outcome }}";
+
+    carbonA = "{{ carbonA }}";
+    carbonB = "{{ carbonB }}";
+
+    carbonMetric = Math.round("{{ outcomeCarbon }}" / 2.2);
+
+    switchSides = function () {
+        if (carbonA == "0") {
+            carbonABatch = "no emissions"
+            carbonBBatch = carbonB + "lbs emissions"
+        } else{
+            carbonBBatch = "no emissions"
+            carbonABatch = carbonA + " lbs emissions"
+        }
+        if (reverseSides == "True") {
+
+            $('#badgeRight').html(carbonABatch)
+            $('#badgeLeft').html(carbonBBatch)
+
+            div1 = $('#left-payoff');
+            div2 = $('#right-payoff');
+
+            tdiv1 = div1.clone();
+            tdiv2 = div2.clone();
+
+            div1.replaceWith(tdiv2);
+            div2.replaceWith(tdiv1);
+
+            div3 = $('#left-emissions');
+            div4 = $('#right-emissions');
+
+            tdiv3 = div3.clone();
+            tdiv4 = div4.clone();
+
+            div3.replaceWith(tdiv4);
+            div4.replaceWith(tdiv3);
+
+            div5 = $('#description-A');
+            div6 = $('#description-B');
+
+            tdiv5 = div5.clone();
+            tdiv6 = div6.clone();
+
+            div5.replaceWith(tdiv6);
+            div6.replaceWith(tdiv5);
+
+        }
+        else {
+
+            $('#badgeRight').html(carbonBBatch)
+            $('#badgeLeft').html(carbonABatch)
+        }
+    }
+
+    activate_nonSalient = function () {
+        if (Salience == "non_salient") {
+            $('.non_salient').css("display", "revert")
+        }
+    }
+
+    window.onload = function () {
+        $('#carbonMetric').html(carbonMetric)
+        switchSides()
+        activate_nonSalient();
+    }
+</script>
+
+
+
+
+
+{% endblock %}

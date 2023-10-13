@@ -1,0 +1,124 @@
+
+/* ****************************************************************************************************************** */
+/* *** General *** */
+/* ****************************************************************************************************************** */
+
+
+
+.otree-body{
+    max-width: 950px;
+    font-size: 1.1rem;
+    text-align: justify;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.feedback{
+  max-width:700px;
+  padding-top: 4vh;
+}
+
+.next-btn .main{
+  width:100%;
+}
+
+
+.form-check-input {
+  width: 2em !important; 
+  height: 2em !important;
+}
+
+.form-check-input:checked {
+  background-color: #A5D7D2 !important; 
+  border-color: #46505A;
+}
+
+
+@media only screen and (min-width: 950px) {
+  .otree-body{
+    padding: 30pt;
+  }
+
+  .form-check-input {
+    width: 2em !important; 
+    height: 2em !important;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+ 
+.form-check-input {
+  width: 1.1em !important; 
+  height: 1.1em !important;
+}
+}
+
+@media only screen and (min-width: 1155px) {
+ .radiotable{
+  width:115% !important;
+ }
+ .next-btn .main {
+  width: 115% !important;
+}
+ .otree-body{
+  padding-left: 0pt !important;
+ }
+}
+
+@media only screen and (max-width: 950px) {
+  .page-header {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-top: 0px;
+}
+}
+
+.non_salient {
+  display: none;
+}
+
+
+.rotate {
+  transform: rotate(60deg) translate(9px,-13px);
+  /* Legacy vendor prefixes that you probably don't need... */
+
+  /* Safari */
+  -webkit-transform: rotate(60deg) translate(9px,-13px);
+
+  /* Firefox */
+  -moz-transform: rotate(60deg)translate(9px,-13px);
+
+  /* IE */
+  -ms-transform: rotate(60deg) translate(9px,-13px);
+
+  /* Opera */
+  -o-transform: rotate(60deg) translate(9px,-13px);
+
+  /* Internet Explorer */
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+
+}
+
+.radio-column{
+  width:5%;
+  min-width:43px;
+  max-width:80px;
+  text-align: center;
+}
+
+
+h2{
+  text-align: left;
+}
+
+
+th, td {
+    padding: 1vh;
+    text-align: left;
+  }
+
+  #choicetable{
+    margin-left: auto;
+    margin-right:auto;
+  }
+

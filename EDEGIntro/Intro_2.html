@@ -1,0 +1,88 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block styles %}
+<link href="{{ static 'global/EDEGgeneral.css'}}" rel="stylesheet">
+<link href="{{ static 'global/css/EDEGcustom.css'}}" rel="stylesheet">
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+<h3> Instructions 2/3<span id="part_no"></span> </h3>
+<h5>Please read the instructions carefully! </h5>
+<div>
+
+
+   <h4 style="padding-top: 20pt;"> Outcomes affect the Environment: </h4>
+    
+        <p class="Exp_Con">
+            <b>Your choices will have environmental consequences.</b>
+        </p>
+         <p>Some options cause <b>carbon (CO2) emissions in
+                the real world.</b> Prior to the study, we reserved carbon emission certificates. Carbon Certificates regulate how much carbon dioxide (CO2) can be emitted in total. There is only a
+                limited number of certificates on the market. Think of a CO2 certificate as an allowance to emit a certain amount of CO2. 
+         </p>
+         <p>
+
+                At the end of the game, one round will be randomly drawn, and the emissions of that round will be realized in the real world. 
+                If you chose an option that causes CO2 emissions in that round, we will return the corresponding amount of CO2 certificates. They will then be back on the market allowing another buyer to emit this amount of CO2. If you choose an option without CO2 emissions, 
+                we will calculate how much CO2 you saved compared to the other option. We will then destroy the amount of carbon certificates corresponding to your CO2 savings. Once the CO2 certificate is destroyed and taken off the market, it 
+                reduces the total amount of emission allowances that can be purchased. With less certificates on the market, less carbon can be emitted in total.
+                <strong> This means, for one randomly drawn round, the carbon emissions will be realized in the real world following your choices.
+                </strong>
+        </p>
+
+      
+        <div style="text-align: center;" id="EmissionTrustContainer">
+            <p>
+                Do your choices in the decision-making game have a real consequence for the environment?
+            </p> 
+        
+            <select name="realEmissions" id="realEmissions" multiple>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+        
+        </div>
+      
+      
+
+
+        <div style="max-width:909px;" class="next-btn">  
+            <div style="float: right; padding-top: 0vh;">
+                <button disabled class="btn btn-primary"id="next-button">Next</button> 
+            </div>
+        </div> 
+
+</div>
+{% endblock %}
+
+{{ formfield_errors "realEmissions" }}
+
+
+
+
+{% block scripts %}
+<script>
+
+enablebtn = function () {
+                document.getElementById("next-button").disabled = false;
+            }
+
+
+Exp_Con = "{{Exp_Con}}"
+activate_Exp_Con = function(){
+    if(Exp_Con > 1) {
+        $('.Exp_Con').css("display", "revert")
+    }
+}
+window.onload = function () {
+    activate_Exp_Con();
+    setTimeout(function () { enablebtn() }, 3 * 1000);
+}
+
+</script>
+{% endblock %}
