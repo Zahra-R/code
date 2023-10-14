@@ -31,7 +31,7 @@ class Player(BasePlayer):
     Exp_Con = models.IntegerField()  # This is a between subjects variable, 1 is first block safe is neutral, 2 is first block safe is carbon negative
     SwitchPayoffs = models.BooleanField()
     Salience = models.BooleanField()
-    reversedbuttons = models.BooleanField()
+    safeLeftBlock1 = models.BooleanField()
     dataScience = models.BooleanField(initial=False)
     dataTeach = models.BooleanField(initial=False)
     realEmissions = models.IntegerField(choices=[[1,'True'], [0,'False']], label="Does the decision that will determine your bonus have a real consequence for the environment?")
@@ -41,13 +41,21 @@ class Player(BasePlayer):
     prolificIDMissing= models.BooleanField(initial=False)
     amountEmissionsLeft = models.IntegerField(blank = True, min_length=1)
     amountEmissionsRight = models.IntegerField(blank = True, min_length=1)
-    leftEmissionsCorrect = models.BooleanField(initial=False, blank=True)
-    rightEmissionsCorrect = models.BooleanField(initial=False, blank=True)
+    leftEmissionsCorrect = models.BooleanField( blank=True)
+    rightEmissionsCorrect = models.BooleanField( blank=True)
     #amountEmissionsRisky2 = models.IntegerField(blank = True, min_length=1)
     #amountEmissionsSafe2 = models.IntegerField(blank = True, min_length=1)
     preference = models.StringField( choices=[ 'A', 'B'])  # , widget=widgets.RadioSelect)
-    prefersEmissions = models.BooleanField(initial=False, blank=True)
-    riskyCausesEmissions = models.BooleanField(initial=False, blank=True)
+    prefersEmissions = models.BooleanField( blank=True)
+    riskyCausesEmissions = models.BooleanField( blank=True)
+
+    carbon_left = models.IntegerField() 
+    carbon_right = models.IntegerField() 
+    riskyLeft = models.BooleanField()
+    riskyCarbon = models.BooleanField()
+    real_preference = models.StringField()
+    preference_carbon = models.IntegerField()
+    salient = models.BooleanField()
     
     
     
@@ -78,45 +86,29 @@ def creating_session(subsession: Subsession):
                 player.SwitchPayoffs = next(blockswitchPayoffs)
 
             ## reversed buttons TRUE means risky option is left, fALSE means risky option is right 
-            player.reversedbuttons = next(reverse_display)
+            player.safeLeftBlock1 = next(reverse_display)
 
             player.participant.Exp_Con=player.Exp_Con
-            player.participant.reversedbuttons= player.reversedbuttons
+            player.participant.safeLeftBlock1= player.safeLeftBlock1
             player.participant.Salience = player.Salience
             player.participant.SwitchPayoffs = player.SwitchPayoffs
 
 
 def make_choice(player: Player, choiceMade):
-    reversedbuttons = player.participant.reversedbuttons
-    riskyCausesEmissions = True if player.Exp_Con == 1 else False
-    player.riskyCausesEmissions = riskyCausesEmissions
-    # if player.round_number % C.ROUNDS_PER_CONDITION == 0:
-    player.preference = choiceMade
-    if reversedbuttons == True:
-        if choiceMade == 'A':
-            player.preference = 'B'
-        elif choiceMade == 'B':
-            player.preference = 'A'
-    if player.preference == "A":
-        player.preference = "Safe"
-        player.prefersEmissions = False if riskyCausesEmissions == True else True
-    else:
-        player.preference = "Risky"
-        player.prefersEmissions = True if riskyCausesEmissions == True else False
+    if choiceMade == 'A':
+        player.real_preference = "Safe" if player.riskyLeft == False else "Risky"
+    if choiceMade == 'B': 
+        player.real_preference = "Safe" if player.riskyLeft == True else "Risky"
+    
+    if player.real_preference == "Safe":
+        player.preference_carbon = C.carbon if player.riskyCarbon == False else 0
+    if player.real_preference == "Risky":
+        player.preference_carbon = C.carbon if player.riskyCarbon == True else 0
 
 
 def attention_check_emissions(player: Player, emissionsLeft, emissionsRight):
-    reversedbuttons = player.participant.reversedbuttons
-    riskyCausesEmissions = True if player.Exp_Con == 1 else False
-    # revbutton True: left risky ; right safe
-    #rightCausesEmissions = reversedbuttons == False and riskyCausesEmissions == True or reversedbuttons == True and riskyCausesEmissions == False
-    leftCausesEmissions = reversedbuttons == riskyCausesEmissions
-    if leftCausesEmissions == True: 
-        player.leftEmissionsCorrect = True if emissionsLeft == C.carbon else False
-        player.rightEmissionsCorrect = True if emissionsRight == 0 else False
-    else: 
-        player.rightEmissionsCorrect = True if emissionsRight == C.carbon else False
-        player.leftEmissionsCorrect = True if emissionsLeft == 0 else False
+    player.rightEmissionsCorrect = True if emissionsRight == player.carbon_right else False
+    player.leftEmissionsCorrect = True if emissionsLeft  == player.carbon_left else False
 
 
 # ---------------------------------------------------------------
@@ -197,24 +189,35 @@ class Preview_Game(Page):
 
     @staticmethod
     def vars_for_template(player: Player):
+        Salience = player.participant.Salience
+        player.salient = Salience
         Exp_Con = player.participant.Exp_Con
-        reversedbuttons = player.participant.reversedbuttons
-        #player.riskyLeft = reversedbuttons
-        carbonA = ((Exp_Con + 1) % 2) * C.carbon
-        #player.carbonA = carbonA
-        carbonB = ((1+ Exp_Con + 1) % 2) * C.carbon
-        #player.carbonB = carbonB
-        outcomeCarbon = 30 # player.participant.outcomeCarbon
-        carbonMiles = outcomeCarbon * 20/11
+        SwitchPayoffs = player.participant.SwitchPayoffs
+        outcome_left = "Safe" if player.safeLeftBlock1 == True else "Risky"
+        outcome_right = "Risky" if player.safeLeftBlock1 == True else "Safe"
+        if Exp_Con == 1: # means risky emits in block 1 
+            player.carbon_left = C.carbon if outcome_left == "Risky" else 0 
+            player.carbon_right = C.carbon if outcome_right == "Risky" else 0
+            player.riskyCarbon = True 
+        if Exp_Con == 2: # means safe emits in block 1 
+            player.carbon_left = C.carbon if outcome_left == "Safe" else 0 
+            player.carbon_right = C.carbon if outcome_right == "Safe" else 0
+            player.riskyCarbon = False
+        player.riskyLeft = True if outcome_left == "Risky" else False 
+
+        carbonMiles = C.carbon * 20.2/11
+
         return {
             'num_rounds': player.participant.game_rounds,
-            'Salience' : "salient" if player.participant.Salience == True else "non_salient", 
-            'outcomeCarbon': outcomeCarbon,
-            'carbonMiles': carbonMiles,
-            'reversedSides': reversedbuttons,
-            'carbonB': carbonB,
-            'carbonA': carbonA,
+            'Salience' : "salient" if player.participant.Salience == True else "non_salient",
+            'carbonA': player.carbon_left,
+            'carbonB': player.carbon_right,
+            'carbonMiles': carbonMiles, 
+            'player.condition' : Exp_Con,
+            'switchPayoffs' : SwitchPayoffs,
+            'riskyLeft' : player.riskyLeft
             }
+
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
         attention_check_emissions(player, player.amountEmissionsLeft, player.amountEmissionsRight)
@@ -226,23 +229,22 @@ class Preview_Game2(Page):
     form_fields = ['preference']
     @staticmethod
     def vars_for_template(player: Player):
+        Salience = player.participant.Salience
+        player.salient = Salience
         Exp_Con = player.participant.Exp_Con
-        reversedbuttons = player.participant.reversedbuttons
-        #player.riskyLeft = reversedbuttons
-        carbonA = ((Exp_Con + 1) % 2) * C.carbon
-        #player.carbonA = carbonA
-        carbonB = ((1+ Exp_Con + 1) % 2) * C.carbon
-        #player.carbonB = carbonB
-        outcomeCarbon = 30 # player.participant.outcomeCarbon
-        carbonMiles = outcomeCarbon * 20/11
+        SwitchPayoffs = player.participant.SwitchPayoffs
+
+        carbonMiles = C.carbon * 20.2/11
+
         return {
             'num_rounds': player.participant.game_rounds,
-            'Salience' : "salient" if player.participant.Salience == True else "non_salient", 
-            'outcomeCarbon': outcomeCarbon,
-            'carbonMiles': carbonMiles,
-            'reversedSides': reversedbuttons,
-            'carbonB': carbonB,
-            'carbonA': carbonA,
+            'Salience' : "salient" if player.participant.Salience == True else "non_salient",
+            'carbonA': player.carbon_left,
+            'carbonB': player.carbon_right,
+            'carbonMiles': carbonMiles, 
+            'player.condition' : Exp_Con,
+            'switchPayoffs' : SwitchPayoffs,
+            'riskyLeft' : player.riskyLeft
             }
 
     @staticmethod

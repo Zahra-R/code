@@ -22,21 +22,13 @@
                     {% else %}  <strong>  gained
                     {%endif%} <span class="prev_outcome"></span> points </strong> and caused 
                     
-                    {% if previous_choice == "A" %}
-                        <strong> {{ carbonA }} lbs of CO2 emissions.</strong>
-                        Had you chosen Option B, you would have 
-                        {% if previous_outcomeB < 0 %} lost
+                        <strong> {{ choice_emissions | to0}} lbs of CO2 emissions.</strong>
+                        Had you chosen Option {% if previous_choice == "A" %} B{% else %} A{%endif%}, you would have 
+                        {% if previous_outcomeForgone < 0 %} lost
                         {% else %} gained 
-                        {%endif%} {{previous_outcomeB | to0}} points and caused {{carbonB}} lbs of CO2 emissions.            
-                    {% endif %}
+                        {%endif%} {{previous_outcomeForgone | to0}} points and caused {{forgone_emissions | to0}} lbs of CO2 emissions.   
                         
-                    {% if previous_choice == "B" %}
-                        <strong> {{ carbonB }} lbs of CO2 emissions</strong>.
-                        Had you chosen Option A, you would have 
-                        {% if previous_outcomeA < 0 %} lost 
-                        {% else %} gained
-                        {%endif%}{{previous_outcomeA | to0}} points and caused {{carbonA}} lbs of CO2 emissions. <br>       
-                    {% endif %}
+            
                 
 
                 {% else %} <!-- this is for non Salient condition  -->
@@ -44,21 +36,12 @@
                     {% if previous_outcome < 0 %} lost 
                     {% else %} gained
                     {%endif%} <strong> <span class="prev_outcome"></span> points. </strong>
-                    
-                    {% if previous_choice == "A" %}
-                        Had you chosen Option B, you would have 
-                        {% if previous_outcomeB < 0 %} lost
-                        {% else %} gained
-                        {%endif%} {{previous_outcomeB | to0}} points.    
-                           <!-- it used to be {{previous_outcomeA}}  but that did not work with the negative sign--></0>        
-                    {% endif %}
+                    Had you chosen Option {% if previous_choice == "A" %} B{% else %} A{%endif%}, you would have 
+                        {% if previous_outcomeForgone < 0 %} lost
+                        {% else %} gained 
+                        {%endif%} {{previous_outcomeForgone | to0}} points.   
                         
-                    {% if previous_choice == "B" %}
-                        Had you chosen Option A, you would have 
-                        {% if previous_outcomeA < 0 %} lost 
-                        {% else %} gained
-                        {%endif%} {{previous_outcomeA | to0}} points. <br>       
-                    {% endif %}
+                   
                 {% endif %}
 
     </div>
@@ -89,17 +72,14 @@
         
                                 <tr id="outcomesrow">
                                     <td style="text-align: center;">The outcomes were:</td>
-                                    {% if previous_outcomeA < 0 %} <td style="font-size:16pt; background-color: none; text-align: center;">
+                                    
+                                    <td style="font-size:16pt; background-color: none; text-align: center;">
                                     {% if previous_choice == "A" %} <strong>{% endif %}&nbsp;{{ previous_outcomeA | to0}} points
-                                    {%else%} <td style="font-size:16pt; background-color:none; text-align: center;">
-                                    {% if previous_choice == "A" %} <strong>{% endif %}&nbsp;{{ previous_outcomeA | to0}} points
-                                    {% endif %} </td></strong>
-        
-                                    {% if previous_outcomeB < 0 %} <td style="font-size:16pt; background-color: none; text-align: center;">{% if
+                                     </td></strong>
+         
+                                    
+                                    <td style="font-size:16pt; background-color: none; text-align: center;">{% if
                                     previous_choice == "B" %} <strong>{% endif %}&nbsp;{{ previous_outcomeB | to0 }} points
-                                    {%else%} <td style="font-size:16pt; background-color: none; text-align: center;">{% if previous_choice
-                                    == "B" %}<strong>{% endif %}&nbsp;{{ previous_outcomeB  | to0}} points
-                                    {% endif %}
                                     </td></strong>
                                     </td>
                                 </tr>
@@ -107,11 +87,11 @@
                                 <tr id="emissionoutcomesrow" class="non_salient">
                                     <td style="text-align: center;">The emissions were:</td>
                                     <td style="font-size:16pt; background-color: none; text-align: center;">
-                                    {% if previous_choice == "A" %}<strong>{% endif %}&nbsp; {{carbonA}} lbs CO2  &nbsp;
+                                    {% if previous_choice == "A" %}<strong>{% endif %}&nbsp; {{carbonA | to0}} lbs CO2  &nbsp;
                                     </td></strong>
         
                                     <td style="font-size:16pt; background-color: none; text-align: center;">
-                                    {% if previous_choice == "B" %}<strong>{% endif %}&nbsp;{{ carbonB }} lbs CO2 &nbsp;
+                                    {% if previous_choice == "B" %}<strong>{% endif %}&nbsp;{{ carbonB | to0}} lbs CO2 &nbsp;
                                         </td></strong>
                                     </td>
                                 </tr>

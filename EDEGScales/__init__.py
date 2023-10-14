@@ -77,13 +77,7 @@ class Player(BasePlayer):
     memoryCarbon_block2 = models.BooleanField()
     memoryBonus = models.IntegerField() 
     
-    Exp_Con = models.IntegerField() 
-    reversedbuttons = models.BooleanField()
-    choiceAttention = models.StringField( choices=['correct', 'false'])  # , widget=widgets.RadioSelect)
-    chosen_round =  models.IntegerField()
-    chosen_round_outcome = models.FloatField()
-    chosen_round_choice = models.StringField()
-    payoff_decimal = models.FloatField()
+    # choiceAttention = models.StringField( choices=['correct', 'false'])  # , widget=widgets.RadioSelect)
     random_bonus = models.CurrencyField()
 
 
@@ -114,9 +108,9 @@ def memory_test_emissions(player: Player, block1Left, block1Right, block2Left, b
 # ------------------- PAGES--------------------------------------
 #----------------------------------------------------------------
 
-class Main_A(Page):
-    form_model = 'player'
-    form_fields = ['choiceAttention']
+#class Main_A(Page):
+#    form_model = 'player'
+#    form_fields = ['choiceAttention']
     
 
 class Memory_test(Page):
@@ -151,12 +145,6 @@ class Trust(Page):
     form_model = 'player'
     form_fields = [  "trustCC" , "faithful", "use_data", "generalFeedback"]
 
-    @staticmethod
-    def vars_for_template(player:Player):
-        Exp_Con = player.participant.Exp_Con
-        return {
-            'Exp_Con' : Exp_Con
-        }
 
 class End(Page):
     @staticmethod
@@ -164,8 +152,6 @@ class End(Page):
         chosen_round = player.participant.chosen_round
         chosen_round_outcome = player.participant.chosen_round_outcome
         chosen_round_choice = player.participant.chosen_round_choice  ### in our logic where a is always safe and b is always risky 
-        # in the way it was depicted to participants (depending on reversedbuttons true or false)
-        chosen_round_choice_present = player.participant.chosen_round_choice_depict
         chosen_round_carbon = player.participant.chosen_round_carbon
 
         Exp_Con = player.participant.Exp_Con
@@ -175,19 +161,18 @@ class End(Page):
 
         player.random_bonus = cu(C.STARTING_PAYMENT + ( chosen_round_outcome + player.memoryBonus) / C.PAYRATIO )
         
-        
         return {
             'chosen_round_outcome': chosen_round_outcome,
             #'starting_payment': C.STARTING_PAYMENT,
             #'payratio': C.PAYRATIO,
             'chosen_round': chosen_round,
-            'chosen_round_choice_present': chosen_round_choice_present,
+            'chosen_round_choice_present': chosen_round_choice,
             'chosen_round_choice': chosen_round_choice,
             'Exp_Con': Exp_Con,
             'player.payoff': player.payoff,
             'random_bonus': player.random_bonus,
             'chosen_round_carbon': chosen_round_carbon, 
-            'reversedbuttons': player.participant.reversedbuttons,
+            'safeLeftBlock1': player.participant.safeLeftBlock1,
 
             'memoryPassed': memoryPassed,
             'memoryBonus': player.memoryBonus
