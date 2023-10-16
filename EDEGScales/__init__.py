@@ -193,9 +193,9 @@ page_sequence = [
     betweenGames,
     Memory_test,
     #Main_A,
-    #Demographics,
-    #CCConcern,
-    #Pol_Att,
+    Demographics,
+    CCConcern,
+    Pol_Att,
     ####Conservative,
     Trust,
     End

@@ -20,6 +20,10 @@ input.larger {
   min-height: 15px;
 }
 
+#abtn, #bbtn{
+  padding: .475rem .475rem
+}
+
 
 #range_party{
     background: linear-gradient(to right, #0000ff  0%, lightgrey 50%, #c4173b  100%);

@@ -1,0 +1,86 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block styles %}
+<link href="{{ static 'global/EDEGgeneral.css'}}" rel="stylesheet">
+<link href="{{ static 'global/css/EDEGcustom.css'}}" rel="stylesheet">
+{% endblock %}
+
+
+{% block content %}
+
+<h3> Instructions <span id="part_no"></span> </h3>
+<h5>Please read the instructions carefully! </h5>
+<div>
+
+    <h4 style="padding-top:20pt"> Outcomes affect your bonus payment </h4>
+   
+
+
+    <p> <strong>In each round, you can gain or lose points.
+        </strong> 
+    </p>
+    <p> <b> At the end of the study, one round will be randomly drawn.</b> The outcome from this round  will decide your bonus payment<span class="Exp_Con"> and the environmental outcome</span>. <span class="Exp_Con">The carbon emissions from that
+        round will be realized.</span> The points you gained or lost in that round will be converted into British Pounds
+        (conversion rate: 200 points &#8793; £1) and will be added to your initial bonus payment of £1. Note that your bonus
+        payment is never negative. The minimum bonus payment you can get is £0. </p>
+</div>
+
+<div>            
+    <p>
+        <b>Example:</b> Imagine you played 2 rounds. In round 1, you lost 100 points<span class="Exp_Con"> and the carbon emissions were 10 pounds</span>.
+        In round 2, you gained 50 points<span class="Exp_Con"> and carbon emissions were zero</span>.
+        At the end, the computer will draw randomly either round 1 or round 2. If round 1 is drawn, your payoff will be
+        -100 points, divided by 200 = -£0.5. Your bonus payment will then be £1 (initial endowment) -£0.5 = £0.5 (equal to around USD $0.62). <span class="Exp_Con">The carbon emissions of 10 lbs will be realized by selling a CO2 certificate
+        that allows the buyer to emit 10 lbs of CO2.</span> 
+    </p>
+
+
+    <p>
+        In the "Please enter any comments here" textfield below, you have to enter the word <b>"thanks"</b> (without the
+        quotes), this is to demostrate you read and understood all of the instructions.
+    </p>
+
+
+    <p style="font-weight:bold">
+        Thank you for participating!
+    </p>
+</div>
+
+{% formfield player.attention label="Please enter any comments here:" %}
+
+I have read and understood the instructions.
+
+
+
+<div class="next-btn">  
+    <div style="float: right; padding-top: 1vh;">
+        <button disabled class="btn btn-primary"id="next-button">Next</button> 
+    </div>
+</div> 
+{% endblock %}
+
+
+
+{% block scripts %}
+<script>
+enablebtn = function () {
+                document.getElementById("next-button").disabled = false;
+            }
+
+
+Exp_Con = "{{Exp_Con}}"
+activate_Exp_Con = function(){
+    if(Exp_Con > 1) {
+        $('.Exp_Con').css("display", "revert")
+        $('#part_no')[0].innerHTML="3/3" 
+    } else {
+        $('#part_no')[0].innerHTML="2/2" 
+    }
+}
+window.onload = function () {
+    activate_Exp_Con();
+    setTimeout(function () { enablebtn() }, 3 * 1000);
+}
+</script>
+{% endblock %}
