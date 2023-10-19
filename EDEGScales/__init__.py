@@ -129,7 +129,7 @@ class Demographics(Page):
     
 class CCConcern(Page):
     form_model = 'player'
-    form_fields= ['ccc1', 'ccc2', 'ccc3', 'ccc4', 'att_ccc', 'ccc10', 'ccc11', 'ccc12', 'ccc13', 'ccc14', 'ccc15', 'ccc16'  ]
+    form_fields= ['ccc1', 'ccc2', 'ccc3', 'ccc4',  'ccc10', 'ccc11', 'ccc12', 'ccc13', 'ccc14', 'ccc15', 'ccc16'  ]
 
       
 class Pol_Att(Page):
