@@ -50,7 +50,7 @@ class Player(BasePlayer):
     ccc2 = make_field('Climate protection is important for our future.')
     ccc3 = make_field('I worry about the climate’s state.')
     ccc4 = make_field('Climate change has severe consequences for humans and nature.')
-    att_ccc = make_field('In this row, please mark the third circle (center circle) to indicate you are paying attention.')
+    #att_ccc = make_field('In this row, please mark the third circle (center circle) to indicate you are paying attention.')
     ccc10 = make_field('Climate change and its consequences are being exaggerated in the media.')     ### skepticism 6 items 
     ccc11 = make_field('Climate change is a racket.')
     ccc12 = make_field('As long as meteorologists are not even able to accurately forecast weather, climate cannot be reliably predicted either.')

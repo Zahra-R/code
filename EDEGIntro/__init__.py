@@ -13,7 +13,7 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     ROUNDS_PER_CONDITION = 1
     NUM_ROUNDS = 1
-    NUM_ROUNDS_Game = 6
+    NUM_ROUNDS_Game = 20
     ROUNDS_PER_BLOCK = NUM_ROUNDS_Game/2
     carbon = 30
     safe_outcome = 7
