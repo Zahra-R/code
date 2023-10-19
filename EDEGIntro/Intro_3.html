@@ -9,7 +9,7 @@
 
 {% block content %}
 
-<h3> Instructions <span id="part_no"></span> </h3>
+<h3> Instructions 3/3 </h3>
 <h5>Please read the instructions carefully! </h5>
 <div>
 
@@ -69,17 +69,8 @@ enablebtn = function () {
             }
 
 
-Exp_Con = "{{Exp_Con}}"
-activate_Exp_Con = function(){
-    if(Exp_Con > 1) {
-        $('.Exp_Con').css("display", "revert")
-        $('#part_no')[0].innerHTML="3/3" 
-    } else {
-        $('#part_no')[0].innerHTML="2/2" 
-    }
-}
+
 window.onload = function () {
-    activate_Exp_Con();
     setTimeout(function () { enablebtn() }, 3 * 1000);
 }
 </script>
