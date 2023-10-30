@@ -1,11 +1,9 @@
 .att-box{
-    border-color: red;
     border-style: dashed;
-    padding: 20px 10px;
-    background-color: lightpink;
-    font-weight: bold;
-    font-size: larger;
-    border-width: thick;
+    padding: 0px 20px 5px 20px;
+    /* background-color: lightpink; */
+    border-width: medium ;
+    margin-top: 40px;
 }
 
 
@@ -42,6 +40,13 @@ input[type='range']::-webkit-slider-thumb {
     border-radius: 50%;
   }
 
+  .first-letter::first-letter{
+    color:red;
+    initial-letter: 2;
+    -webkit-initial-letter: 2;
+    padding-right: 15px;
+    font-size: xx-large;
+  }
 
 
   .loading:after {

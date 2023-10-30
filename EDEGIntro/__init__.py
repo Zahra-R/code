@@ -15,7 +15,7 @@ class C(BaseConstants):
     NUM_ROUNDS = 1
     NUM_ROUNDS_Game = 20
     ROUNDS_PER_BLOCK = NUM_ROUNDS_Game/2
-    carbon = 30
+    carbon = 15
     safe_outcome = 7
     high_lottery = 30 # typical outcome of the lottery
     low_lottery = -200 # rare disaster 
@@ -124,7 +124,7 @@ class Consent(Page):
         player.prolificIDMissing = player.participant.label == None
         return {
             "particpantlabel": player.participant.label,
-            "nolabel": False # player.participant.label == None
+            "nolabel":  player.participant.label == None
             }
     
 

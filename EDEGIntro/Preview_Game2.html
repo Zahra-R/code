@@ -23,8 +23,11 @@
         <p> If you choose Option B,  <span id="description-risky">you will have a 90% chance to <b>gain {{ C.high_lottery }} points</b> and a 10% chance to <b>lose {{ C.low_lottery }} points.</b> </span> This option emits <b>{{carbonB}} lbs of CO2.</b>  </p> 
                 
             <p>  While this is just a rough estimate, you can think about {{C.carbon}} lbs CO2 ({{C.carbon}} lbs ≈ <span id ="carbonMetric"></span> metric kilos) as being <b>equivalent to travelling {{carbonMiles | to0}} miles in an average passenger car.</b>  </p>
+
+            <p class="first-letter non_salient"> &#9888; After the preview, there will be <b> no more reminders about the
+                emissions.</b> The emissions will remain the same for the next {{C.ROUNDS_PER_BLOCK | to0}} rounds.
+        </p>
             
-            <p class="non_salient"> After the preview, there will be <b> no more reminders about the emissions.</b> The emissions will remain the same for the next {{C.ROUNDS_PER_BLOCK | to0}} rounds. </p>
     </div>
    
     <div class="No-label" style="color: grey; background-color: antiquewhite;  padding:min(4vw, 20pt);     box-shadow: 1pt 1pt 2pt 2pt rosybrown; margin-bottom: 10pt;">       

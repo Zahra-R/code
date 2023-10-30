@@ -59,50 +59,28 @@
         
     </div>
 
-
-    <h4 style="padding-top: 20pt"> How many carbon emissions are caused by each option? </h4>
+    <h4 style="padding-top: 20pt"> Given the information above, if you had to choose either Option A or B, which option would you prefer?  </h4> <p> This question will not be relevant for your bonus payoff.</p>
     <div class="mb-3 _formfield">
     
-        <div class="controls">
-        
-            <table style="padding-left:0;">
-                <tr> 
-                    <td style="padding-left:0pt;"> <label class="col-form-label" for="id_amountEmissionsLeft">Option A causes</label>
-                    </td>
-                    <td style="padding-left:0;">  <input type="number"  class="form-control" inputmode="numeric" id="id_amountEmissionsLeft" max="1000" min="0" step="1" pattern="[0-9]{10}" name="att_check_amountEmissionsLeft" required="" value=""> 
-                    </td> 
-                    <td> lbs CO2.</td>
+        <table style=" width:100%" class="table" id="choicetable">
+            <tbody>
+               
+                    
+
+                <tr style="border-color: white;">
+                    <th> </th>
+                    <td style="text-align: left;"><button name="preference" id="abtn" value="A"
+                        class="btn btn-primary btn-large" > I would prefer Option A</button></td>
+                    <td style="text-align: left;"><button name="preference" id="bbtn" value="B"
+                        class="btn btn-primary btn-large" > I would prefer Option B</button></td>
                 </tr>
-    
-                <tr> 
-                    <td style="padding-left:0pt;"> <label class="col-form-label" for="id_amountEmissionsRight">Option B causes</label>
-                    </td>
-                    <td style="padding-left:0;">  <input type="number"  class="form-control" inputmode="numeric" id="id_amountEmissionsRight" max="1000" min="0" step="1" pattern="[0-9]{10}" name="att_check_amountEmissionsRight" required="" value=""> 
-                    </td> 
-                    <td> lbs CO2.</td>
-                </tr>
-            </table>
-
-        </div>
-    </div>
-
-    
-    {{ formfield_errors "att_check_amountEmissionsLeft" }}
-    {{ formfield_errors "att_check_amountEmissionsRight" }}
-    
- 
-
-      
-
-    <div class="next-btn">
-        <div style="float: right; padding-top: 5vh;">
-            {% next_button %}
-        </div>
+            </tbody>
+        </table>
     </div>
 
 
 </body>
-
+{{ formfield_errors "preference" }}
 {% endblock %}
 
 {% block scripts %}

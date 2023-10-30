@@ -25,14 +25,21 @@
                 <p> Please choose one of the options.</p>  
                 <p> If you choose Option A, <span id="description-safe"> you will <b> gain {{ C.safe_outcome }} points.</b></span>  <span class="non_salient"> This option emits {{carbonA}} lbs of CO2.  </span> </p> 
                 <p> If you choose Option B,  <span id="description-risky">you will have a 90% chance to <b>gain {{ C.high_lottery }} points</b> and a 10% chance to <b>lose {{ C.low_lottery }} points.</b> </span> <span class="non_salient"> This option emits {{carbonB}} lbs of CO2.</span>  </p>
+                {{endif}}
                 
-                <p> <span class="non_salient"> While this is just a rough estimate, you can think about <b>{{C.carbon}} lbs CO2 ( ≈ 14 metric kilos) as being equivalent to travelling {{carbonMiles | to0}} miles in an average passenger car.</b> </span> </p>
-                    {% if game_round == 1 or game_round == firstRoundSecondBlock %} 
+                <p> <span class="non_salient"> While this is just a rough estimate, you can think about <b>{{C.carbon}} lbs CO2 ( ≈ 14 metric kilos) as being equivalent to travelling {{carbonMiles | to0}} miles in an average passenger car.</b> </span> 
+                </p>
+                
+                {% if game_round == 1 or game_round == firstRoundSecondBlock %} 
                         {% if Salience == False %} 
-                        <p> Please bear in mind that Option {{if carbonA > 0}} A {{else}} B {{endif}} entails carbon emissions ({{C.carbon}} lbs CO2, which is around {{carbonMiles | to0}} miles in an average passenger car). No emissions will be caused by Option {{if carbonA > 0}} B{{else}} A{{endif}}. <b>You will not be reminded about the carbon emissions in the following rounds</b>, but we will realize the emissions following your choice of a randomly drawn round at the end of the study.</p>
+                        <div  class="att-box">
+                            <h4 style="margin-top:-17px; padding-left:10px;
+                            margin-left:20px; width:180px;
+                            background:white;">Last Reminder</h4>
+                           <p > Please bear in mind that Option {{if carbonA > 0}} A {{else}} B {{endif}} entails carbon emissions ({{C.carbon}} lbs CO2, which is around {{carbonMiles | to0}} miles in an average passenger car). No emissions will be caused by Option {{if carbonA > 0}} B{{else}} A{{endif}}. Carbon emissions will remain the same, but <b>you will not be reminded about them in the following rounds</b>.</p>
+                        </div>
                         {% endif %}
-                    {% endif %}
-                {%endif%}  
+                {% endif %}
             </div>
             <table style=" width:100%" class="table" id="choicetable">
                 <tbody>

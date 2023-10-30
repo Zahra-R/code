@@ -26,7 +26,7 @@ class C(BaseConstants):
     safe_outcome = 7
     high_lottery = 30 # typical outcome of the lottery
     low_lottery = -200 # rare disaster 
-    carbon = 30
+    carbon = 15
     show_feedback = 1
 
 class Subsession(BaseSubsession):
@@ -55,6 +55,9 @@ class Player(BasePlayer):
     rightEmissionsCorrect = models.BooleanField()
     att_check_amountEmissionsLeft = models.IntegerField()
     att_check_amountEmissionsRight = models.IntegerField()
+    preference = models.StringField( choices=[ 'A', 'B'])  # , widget=widgets.RadioSelect)
+    real_preference = models.StringField()
+    preference_carbon = models.IntegerField()
 
     outcomeSafe = models.FloatField()
     outcomeRisky = models.FloatField()
@@ -97,6 +100,20 @@ def make_choice(player: Player, choiceMade):
         player.round_carbon = C.carbon if player.riskyCarbon == False else 0
     if player.real_choice == "Risky":
         player.round_carbon = C.carbon if player.riskyCarbon == True else 0
+
+
+
+def make_preference(player: Player, choiceMade):
+    if choiceMade == 'A':
+        player.real_preference = "Safe" if player.riskyLeft == False else "Risky"
+    if choiceMade == 'B': 
+        player.real_preference = "Safe" if player.riskyLeft == True else "Risky"
+    
+    if player.real_preference == "Safe":
+        player.preference_carbon = C.carbon if player.riskyCarbon == False else 0
+    if player.real_preference == "Risky":
+        player.preference_carbon = C.carbon if player.riskyCarbon == True else 0
+
 
 
 def attention_check_emissions(player: Player, emissionsLeft, emissionsRight):
@@ -172,7 +189,7 @@ class Main(Page):
         carbonMiles = C.carbon * 20.2/11
         game_round = player.round_number
         return {
-                'firstRoundSecondBlock': C.ROUNDS_PER_BLOCK + 1, 
+                'firstRoundSecondBlock': int(C.ROUNDS_PER_BLOCK + 1 ),
                 'game_round': game_round,
                 'carbonA': player.carbon_left,
                 'carbonB': player.carbon_right,
@@ -281,9 +298,57 @@ class Preview_Part2(Page):
         return (player.round_number == (C.ROUNDS_PER_BLOCK + 1 ))
     
 
+class Preview2_Part2(Page):
+    form_model = 'player'
+    form_fields = ['preference']
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        Salience = player.participant.Salience
+        player.salient = Salience
+        Exp_Con = player.participant.Exp_Con
+        SwitchPayoffs = player.participant.SwitchPayoffs
+        safeLeftBlock1 = player.participant.safeLeftBlock1
+        outcome_left = "Risky" if SwitchPayoffs == safeLeftBlock1 else "Safe"
+        outcome_right = "Safe" if SwitchPayoffs == safeLeftBlock1 else "Risky"
+        if Exp_Con == 1:  # means safe emits in block 2
+            player.carbon_left = C.carbon if outcome_left == "Safe" else 0
+            player.carbon_right = C.carbon if outcome_right == "Safe" else 0
+            player.riskyCarbon = False
+        if Exp_Con == 2:  # means risky emits in block 2
+            player.carbon_left = C.carbon if outcome_left == "Risky" else 0
+            player.carbon_right = C.carbon if outcome_right == "Risky" else 0
+            player.riskyCarbon = True
+
+        player.riskyLeft = True if outcome_left == "Risky" else False
+        player.carbonLeft = True if player.carbon_left > 0 else False
+
+        carbonMiles = C.carbon * 20.2/11
+
+        return {
+            'num_rounds': player.participant.game_rounds,
+            'Salience': "salient" if player.participant.Salience == True else "non_salient",
+            'carbonA': player.carbon_left,
+            'carbonB': player.carbon_right,
+            'carbonMiles': carbonMiles,
+            'player.condition': Exp_Con,
+            'switchPayoffs': SwitchPayoffs,
+            'riskyLeft': player.riskyLeft
+        }
+
+    @staticmethod
+    def is_displayed(player: Player):
+        return (player.round_number == (C.ROUNDS_PER_BLOCK + 1))
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        make_preference(player, player.preference)
+    
+
 page_sequence = [
     betweenGames,
     Preview_Part2,
+    Preview2_Part2,
     Main,
     Feedback
 ]
