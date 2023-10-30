@@ -4,7 +4,7 @@ from os import environ
 SESSION_CONFIGS = [
     ### EDEG -3
     dict(
-        name='EDEG_study_FullDesing_Reps', 
+        name='EDEG_study2_FullDesing_Reps', 
         app_sequence=['EDEGIntro', 'EDEG3', 'EDEGScales',], 
         num_demo_participants=16, 
         group = "reps"
