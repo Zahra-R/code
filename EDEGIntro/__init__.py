@@ -212,7 +212,7 @@ class Preview_Game(Page):
             'Salience' : "salient" if player.participant.Salience == True else "non_salient",
             'carbonA': player.carbon_left,
             'carbonB': player.carbon_right,
-            'carbonMiles': carbonMiles, 
+            'carbonMiles': round(carbonMiles), 
             'player.condition' : Exp_Con,
             'switchPayoffs' : SwitchPayoffs,
             'riskyLeft' : player.riskyLeft
@@ -241,7 +241,7 @@ class Preview_Game2(Page):
             'Salience' : "salient" if player.participant.Salience == True else "non_salient",
             'carbonA': player.carbon_left,
             'carbonB': player.carbon_right,
-            'carbonMiles': carbonMiles, 
+            'carbonMiles': round(carbonMiles), 
             'player.condition' : Exp_Con,
             'switchPayoffs' : SwitchPayoffs,
             'riskyLeft' : player.riskyLeft
