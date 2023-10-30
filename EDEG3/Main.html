@@ -27,7 +27,7 @@
                 <p> If you choose Option B,  <span id="description-risky">you will have a 90% chance to <b>gain {{ C.high_lottery }} points</b> and a 10% chance to <b>lose {{ C.low_lottery }} points.</b> </span> <span class="non_salient"> This option emits {{carbonB}} lbs of CO2.</span>  </p>
                 {{endif}}
                 
-                <p> <span class="non_salient"> While this is just a rough estimate, you can think about <b>{{C.carbon}} lbs CO2 ( ≈ <span id ="carbonMetric"></span> metric kilos) as being equivalent to travelling {{carbonMiles | to0}} miles in an average passenger car.</b> </span> 
+                <p> <span class="non_salient"> While this is just a rough estimate, you can think about <b>{{C.carbon}} lbs CO2 ( ≈ <span class ="carbonMetric"></span> metric kilos) as being equivalent to travelling {{carbonMiles | to0}} miles in an average passenger car.</b> </span> 
                 </p>
                 
                 {% if game_round == 1 or game_round == firstRoundSecondBlock %} 
@@ -36,7 +36,7 @@
                             <h4 style="margin-top:-17px; padding-left:10px;
                             margin-left:20px; width:180px;
                             background:white;">Last Reminder</h4>
-                           <p > Please bear in mind that Option {{if carbonA > 0}} A {{else}} B {{endif}} entails carbon emissions ({{C.carbon}} lbs CO2, which is around <span id ="carbonMetric"></span> metric kilos or around {{carbonMiles | to0}} miles in an average passenger car). No emissions will be caused by Option {{if carbonA > 0}} B{{else}} A{{endif}}. Carbon emissions will remain the same, but <b>you will not be reminded about them in the following rounds</b>.</p>
+                           <p > Please bear in mind that Option {{if carbonA > 0}} A {{else}} B {{endif}} entails carbon emissions ({{C.carbon}} lbs CO2, which is around <span class ="carbonMetric"></span> metric kilos or around {{carbonMiles | to0}} miles in an average passenger car). No emissions will be caused by Option {{if carbonA > 0}} B{{else}} A{{endif}}. Carbon emissions will remain the same, but <b>you will not be reminded about them in the following rounds</b>.</p>
                         </div>
                         {% endif %}
                 {% endif %}
@@ -134,7 +134,7 @@
     }
 
     window.onload = function () {
-        $('#carbonMetric').html(carbonMetric)
+        $('.carbonMetric').html(carbonMetric)
         activate_EmissionsRow();
         switchSides()
        
