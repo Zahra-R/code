@@ -49,6 +49,9 @@ class Player(BasePlayer):
     prefersEmissions = models.BooleanField( blank=True)
     riskyCausesEmissions = models.BooleanField( blank=True)
 
+    payoff_preference = models.StringField()
+    preference_no_carbon = models.StringField( choices=[ 'A', 'B'])  # , widget=widgets.RadioSelect)
+
     carbon_left = models.IntegerField() 
     carbon_right = models.IntegerField() 
     riskyLeft = models.BooleanField()
@@ -104,6 +107,14 @@ def make_choice(player: Player, choiceMade):
         player.preference_carbon = C.carbon if player.riskyCarbon == False else 0
     if player.real_preference == "Risky":
         player.preference_carbon = C.carbon if player.riskyCarbon == True else 0
+
+
+
+def make_choice_no_carbon(player: Player, choiceMade):
+    if choiceMade == 'A':
+        player.payoff_preference = "Safe" if player.riskyLeft == False else "Risky"
+    if choiceMade == 'B': 
+        player.payoff_preference = "Safe" if player.riskyLeft == True else "Risky"
 
 
 def attention_check_emissions(player: Player, emissionsLeft, emissionsRight):
@@ -181,12 +192,11 @@ class NotAtt(Page):
             return True
         else:
             return not("thank" in player.in_round(1).attention.lower())
-        
 
-class Preview_Game(Page):
+
+class Preview_Game0(Page):
     form_model = 'player'
-    form_fields = ['amountEmissionsLeft', 'amountEmissionsRight']
-
+    form_fields = ['preference_no_carbon']
     @staticmethod
     def vars_for_template(player: Player):
         Salience = player.participant.Salience
@@ -204,6 +214,30 @@ class Preview_Game(Page):
             player.carbon_right = C.carbon if outcome_right == "Safe" else 0
             player.riskyCarbon = False
         player.riskyLeft = True if outcome_left == "Risky" else False 
+
+        return {
+            'num_rounds': player.participant.game_rounds,
+            'player.condition' : Exp_Con,
+            'switchPayoffs' : SwitchPayoffs,
+            'riskyLeft' : player.riskyLeft
+            }
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        make_choice_no_carbon(player, player.preference_no_carbon)
+
+
+class Preview_Game1(Page):
+    form_model = 'player'
+    form_fields = ['amountEmissionsLeft', 'amountEmissionsRight']
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        Salience = player.participant.Salience
+        player.salient = Salience
+        Exp_Con = player.participant.Exp_Con
+        SwitchPayoffs = player.participant.SwitchPayoffs
+       
 
         carbonMiles = C.carbon * 20.2/11
 
@@ -259,9 +293,15 @@ class before_Games(Page):
     form_model = 'player'
 
 
+class before_Games0(Page):
+    form_model = 'player'
+
 
 
     
+class before_Preview(Page):
+    form_model = 'player'
+
 
 
 
@@ -270,7 +310,10 @@ page_sequence = [
     Intro_1,
     Intro_2,
     Intro_3,
-    Preview_Game,
+    before_Games0,
+    Preview_Game0,
+    before_Preview,
+    Preview_Game1,
     Preview_Game2,
     before_Games
 ]

@@ -1,0 +1,25 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block styles %}
+    <link href="{{ static 'global/EDEGgeneral.css'}}" rel="stylesheet">
+    <link href="{{ static 'global/css/EDEGcustom.css'}}" rel="stylesheet">
+{% endblock %}
+
+{% block title %}
+    One-Shot Decision Making Game
+{% endblock %}
+
+{% block content %}
+<div style="max-width:755px;" >  
+<strong> Before the multi-round game will start, you will play a one-round game where you can choose between two options with different payoffs. </strong>
+</div>
+<div style="max-width:755px;" class="next-btn">  
+    <div style="float: right; padding-top: 2vh;">
+        <button class="btn btn-primary otree-btn-next"id="next-button">Next</button> 
+    </div>
+</div> 
+
+{% endblock %}
+
+
